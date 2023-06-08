@@ -9,7 +9,7 @@ date: "2023-06-08"
 
 ```{r setup, include=FALSE}
 options(width = 999)
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, tidy.opts = list(width.cutoff = 500), tidy = TRUE)
 ```
 
 ```{r session}
@@ -37,7 +37,6 @@ links = as_tibble(html_attr(html_nodes(pg, "a"), "href")) %>%
 
 ```{r testlink, results='asis', echo = FALSE, message = FALSE, warning = FALSE}
 ##### Get info from core datasets
-options(width = 999)
 
 for (i in 42:nrow(links)) {
   
