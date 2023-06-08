@@ -1,5 +1,6 @@
 <style type="text/css">
 .main-container {
+  width: 200%;
   max-width: 300% !important;
   margin: auto;
 }

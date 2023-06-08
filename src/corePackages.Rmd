@@ -3,9 +3,9 @@ title: "corePackages"
 author: "Hilary Dugan"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
-  pdf_document: default
   html_document:
     css: styles.css
+  pdf_document: default
 ---
 
 <!-- Get Libraries -->
