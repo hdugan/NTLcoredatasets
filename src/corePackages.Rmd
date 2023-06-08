@@ -6,14 +6,14 @@ output:
 date: "2023-06-08"
 ---
 
-<style>
-.main-container { width: 1800px; max-width:2800px;}
-</style>
-
 ```{r setup, include=FALSE}
+options(width = 999)
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r session}
+sessionInfo()
+```
 ## This document contains metadata for the core NTL-LTER datasets
 
 <!-- Get Libraries -->
