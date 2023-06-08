@@ -3,6 +3,7 @@ title: "corePackages"
 output:
   html_document:
     df_print: paged
+    css: styles.css
 date: "2023-06-08"
 ---
 
