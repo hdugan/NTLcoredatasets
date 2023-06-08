@@ -6,6 +6,10 @@ output:
 date: "2023-06-08"
 ---
 
+<style>
+.main-container { width: 1800px; max-width:2800px;}
+</style>
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
@@ -32,7 +36,7 @@ links = as_tibble(html_attr(html_nodes(pg, "a"), "href")) %>%
 
 ```{r testlink, results='asis', echo = FALSE, message = FALSE, warning = FALSE}
 ##### Get info from core datasets
-for (i in 2:nrow(links)) {
+for (i in 42:nrow(links)) {
   
   # Get dataset URL
   coreLink = links$value[i]
