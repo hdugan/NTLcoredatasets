@@ -1,6 +1,3 @@
-<style>
-.main-container {
-  width: 300%;
-    max-width: unset;
-  }
-</style>
+div.main-container {
+  max-width: 2600px !important;
+}
