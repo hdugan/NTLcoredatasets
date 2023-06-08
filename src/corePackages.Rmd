@@ -7,8 +7,16 @@ output:
 date: "2023-06-08"
 ---
 
+<!-- Get Libraries -->
+```{r libraries, echo=FALSE, message = FALSE, warning = FALSE}
+library(xml2)
+library(rvest)
+library(stringr)
+library(tidyverse)
+library(formatR)
+```
+
 ```{r setup, include=FALSE}
-options(width = 999)
 knitr::opts_chunk$set(echo = TRUE, tidy.opts = list(width.cutoff = 500), tidy = TRUE)
 ```
 
@@ -17,13 +25,7 @@ sessionInfo()
 ```
 ## This document contains metadata for the core NTL-LTER datasets
 
-<!-- Get Libraries -->
-```{r libraries, echo=FALSE, message = FALSE, warning = FALSE}
-library(xml2)
-library(rvest)
-library(stringr)
-library(tidyverse)
-```
+
 
 <!-- Get Links -->
 ```{r pressure, echo=FALSE}
@@ -37,6 +39,7 @@ links = as_tibble(html_attr(html_nodes(pg, "a"), "href")) %>%
 
 ```{r testlink, results='asis', echo = FALSE, message = FALSE, warning = FALSE}
 ##### Get info from core datasets
+options(width=1000)
 
 for (i in 42:nrow(links)) {
   
