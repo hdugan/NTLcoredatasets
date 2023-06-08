@@ -2,7 +2,7 @@
 title: "corePackages"
 output:
   html_document:
-    df_print: paged
+    # df_print: paged
     css: styles.css
 date: "2023-06-08"
 ---
@@ -37,6 +37,8 @@ links = as_tibble(html_attr(html_nodes(pg, "a"), "href")) %>%
 
 ```{r testlink, results='asis', echo = FALSE, message = FALSE, warning = FALSE}
 ##### Get info from core datasets
+options(width = 999)
+
 for (i in 42:nrow(links)) {
   
   # Get dataset URL
