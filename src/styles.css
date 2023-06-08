@@ -1,3 +1,6 @@
-div.main-container {
-  max-width: 1600px !important;
+<style type="text/css">
+.main-container {
+  max-width: 100% !important;
+  margin: auto;
 }
+</style>
