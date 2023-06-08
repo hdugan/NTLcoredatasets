@@ -4,9 +4,16 @@ author: "Hilary Dugan"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
   html_document:
-    css: styles.css
+    # css: styles.css
   pdf_document: default
 ---
+
+<style>
+code {
+  white-space: nowrap;
+}
+</style>
+
 
 <!-- Get Libraries -->
 ```{r libraries, echo=FALSE, message = FALSE, warning = FALSE}
@@ -18,7 +25,8 @@ library(formatR)
 ```
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, tidy.opts = list(width.cutoff = 500), tidy = TRUE)
+library(knitr)
+knitr::opts_chunk$set(tidy.opts = list(width.cutoff = 500), tidy = TRUE)
 ```
 
 ```{r session}
@@ -37,7 +45,7 @@ links = as_tibble(html_attr(html_nodes(pg, "a"), "href")) %>%
 
 ```{r testlink, results='asis', echo = FALSE, message = FALSE, warning = FALSE}
 ##### Get info from core datasets
-options(width=1000)
+options(width = 500)
 
 for (i in 2:nrow(links)) {
   
