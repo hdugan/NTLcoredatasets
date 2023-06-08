@@ -3,7 +3,6 @@ title: "corePackages"
 output:
   html_document:
     # df_print: paged
-    css: styles.css
 date: "2023-06-08"
 ---
 
@@ -17,15 +16,13 @@ library(formatR)
 ```
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, tidy.opts = list(width.cutoff = 500), tidy = TRUE)
+knitr::opts_chunk$set(echo = TRUE, tidy.opts = list(width.cutoff = 500), tidy = FALSE)
 ```
 
 ```{r session}
 sessionInfo()
 ```
 ## This document contains metadata for the core NTL-LTER datasets
-
-
 
 <!-- Get Links -->
 ```{r pressure, echo=FALSE}
@@ -35,7 +32,6 @@ links = as_tibble(html_attr(html_nodes(pg, "a"), "href")) %>%
   filter(str_detect(value, 'knb-lter-ntl'))
 
 ```
-
 
 ```{r testlink, results='asis', echo = FALSE, message = FALSE, warning = FALSE}
 ##### Get info from core datasets
