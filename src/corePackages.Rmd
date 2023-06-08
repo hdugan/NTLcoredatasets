@@ -1,9 +1,11 @@
 ---
 title: "corePackages"
+author: "Hilary Dugan"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
+  pdf_document: default
   html_document:
-    # df_print: paged
-date: "2023-06-08"
+    css: styles.css
 ---
 
 <!-- Get Libraries -->
@@ -16,7 +18,7 @@ library(formatR)
 ```
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, tidy.opts = list(width.cutoff = 500), tidy = FALSE)
+knitr::opts_chunk$set(echo = TRUE, tidy.opts = list(width.cutoff = 500), tidy = TRUE)
 ```
 
 ```{r session}
@@ -37,7 +39,7 @@ links = as_tibble(html_attr(html_nodes(pg, "a"), "href")) %>%
 ##### Get info from core datasets
 options(width=1000)
 
-for (i in 42:nrow(links)) {
+for (i in 2:nrow(links)) {
   
   # Get dataset URL
   coreLink = links$value[i]

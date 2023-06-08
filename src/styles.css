@@ -1,6 +1,9 @@
 <style type="text/css">
 .main-container {
-  max-width: 100% !important;
+  max-width: 300% !important;
   margin: auto;
+}
+.page-inner {
+  width: 200%;
 }
 </style>
