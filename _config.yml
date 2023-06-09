@@ -7,3 +7,4 @@ include:
   - index.html
   - src/corePackages.html
   # - README.md
+exclude: ["ReadMe.md"]
