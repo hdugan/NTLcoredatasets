@@ -113,6 +113,6 @@ for (i in 2:nrow(links)) {
 ```
 
 ## Session Info
-```{r session}
+```{r session, echo = FALSE}
 R.version
 ```
