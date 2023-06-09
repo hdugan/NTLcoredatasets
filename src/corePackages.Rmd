@@ -1,5 +1,5 @@
 ---
-title: "corePackages"
+title: "Expanded metadata for the core NTL-LTER datasets"
 author: "Hilary Dugan"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
@@ -29,10 +29,7 @@ library(knitr)
 knitr::opts_chunk$set(tidy.opts = list(width.cutoff = 500), tidy = TRUE)
 ```
 
-```{r session}
-sessionInfo()
-```
-## This document contains metadata for the core NTL-LTER datasets
+---
 
 <!-- Get Links -->
 ```{r pressure, echo=FALSE}
@@ -113,4 +110,9 @@ for (i in 2:nrow(links)) {
 }
 
 
+```
+
+## Session Info
+```{r session}
+R.version
 ```
