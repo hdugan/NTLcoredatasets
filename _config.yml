@@ -6,4 +6,4 @@ relative_links:
 include:
   # - index.html
   - src/corePackages.html
-  - README.md
+  # - README.md
