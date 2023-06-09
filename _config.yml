@@ -6,5 +6,4 @@ relative_links:
 include:
   - index.html
   - src/corePackages.html
-  # - README.md
-exclude: ["ReadMe.md"]
+exclude: ["README.md"]
