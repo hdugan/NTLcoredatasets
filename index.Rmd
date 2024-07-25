@@ -33,7 +33,7 @@ knitr::opts_chunk$set(tidy.opts = list(width.cutoff = 500), tidy = TRUE)
 
 <!-- Get Links -->
 ```{r pressure, echo=FALSE}
-URL <- "https://ntllter.wiscweb.wisc.edu/core-datasets/"
+URL <- "https://lter.limnology.wisc.edu/core-datasets/"
 pg <- read_html(URL)
 links = as_tibble(html_attr(html_nodes(pg, "a"), "href")) %>%
   filter(str_detect(value, 'knb-lter-ntl'))
