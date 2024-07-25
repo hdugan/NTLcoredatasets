@@ -22,6 +22,7 @@ library(rvest)
 library(stringr)
 library(tidyverse)
 library(formatR)
+library(EDIutils)
 ```
 
 ```{r setup, include=FALSE}
@@ -60,6 +61,15 @@ for (i in 2:nrow(links)) {
   infile1 <- tempfile()
   download.file(newlink,infile1,method="curl")
   dt1 <- read_csv(infile1, show_col_types = FALSE)
+  
+  # Get metadatalink
+  meta = head(html_attr(html_nodes(pg2, "a")[[32]], "href"))
+  metadatalink = paste0("https://portal.edirepository.org/nis/", meta)
+  pg3 <- read_html(metadatalink)
+  html_text2(html_elements(pg3, "li"))
+
+  # Get package ID
+  pckID = strsplit(html_text2(html_nodes(pg2, "li"))[[35]], split = ' ')[[1]][1]
   
   ### Get title 
   cat('## ',html_text2(html_elements(pg2, "li"))[27], '\n\n')
