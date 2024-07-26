@@ -62,21 +62,40 @@ for (i in 2:nrow(links)) {
   download.file(newlink,infile1,method="curl")
   dt1 <- read_csv(infile1, show_col_types = FALSE)
   
-  # Get metadatalink
-  meta = head(html_attr(html_nodes(pg2, "a")[[32]], "href"))
-  metadatalink = paste0("https://portal.edirepository.org/nis/", meta)
-  pg3 <- read_html(metadatalink)
-  html_text2(html_elements(pg3, "li"))
+  # # Get metadatalink
+  # meta = head(html_attr(html_nodes(pg2, "a")[[32]], "href"))
+  # metadatalink = paste0("https://portal.edirepository.org/nis/", meta)
+  # pg3 <- read_html(metadatalink)
+  # html_text2(html_elements(pg3, "li"))
 
-  # Get package ID
-  pckID = strsplit(html_text2(html_nodes(pg2, "li"))[[35]], split = ' ')[[1]][1]
+  # Get package ID to get EML metadata
+  pckIDinx = which(startsWith(html_text2(html_nodes(pg2, "li")), 'knb'))[1]
+  pckID = strsplit(html_text2(html_nodes(pg2, "li"))[[pckIDinx]], split = ' ')[[1]][1]
+  
+  meta.xml = read_metadata(packageId = pckID)
+  eml_keywords <- xml_text(xml_find_all(meta.xml, './/keyword'))
+  
+  # Keep core areas 
+  keepKeywords = eml_keywords[eml_keywords %in% c('Primary Production', 'primary production',
+                                                  'Populations', 'populations',
+                                                  'inorganic nutrients', 'Inorganic Matter', 
+                                                  'Organic Matter', 'organic matter',
+                                                  'Disturbance', 'disturbance')]
   
   ### Get title 
-  cat('## ',html_text2(html_elements(pg2, "li"))[27], '\n\n')
+  # cat('## ',html_text2(html_elements(pg2, "li"))[27], '\n\n')
+  cat('## ', xml_text(xml_find_all(meta.xml, './/title'))[1], '\n\n')
+
+   # Print Keywords
+  cat('**Core Areas**: ',paste(keepKeywords, collapse=", "), '\n\n')
+  
+  # All Keywords
+  cat('**Keywords**: ', paste(eml_keywords, collapse=", "), '\n\n')
+  
   # Print URL
   cat('**EDI Archive + Metadata**: ',coreLink, '\n\n')
   # Print .csv download
-   cat('**.csv download link**: ',newlink, '\n\n')
+  cat('**.csv download link**: ',newlink, '\n\n')
   
   # variables in dataset
   varnames = names(dt1)
