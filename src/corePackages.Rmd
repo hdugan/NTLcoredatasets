@@ -22,6 +22,7 @@ library(rvest)
 library(stringr)
 library(tidyverse)
 library(formatR)
+library(EDIutils)
 ```
 
 ```{r setup, include=FALSE}
@@ -48,25 +49,32 @@ for (i in 2:nrow(links)) {
   
   # Get dataset URL
   coreLink = links$value[i]
+  getidentifier <- stringr::str_extract(coreLink, "(?<=identifier=)\\d+")
   
-  pg2 <- read_html(coreLink)
-  linkend = as_tibble(html_attr(html_elements(pg2, "a"), "href")) %>%
-    filter(str_detect(value, '/dataviewer')) |> 
-    mutate(value = str_sub(value, 2, -1))
+  # pg2 <- read_html(coreLink)
+  # linkend = as_tibble(html_attr(html_elements(pg2, "a"), "href")) %>%
+  #   filter(str_detect(value, '/metadataviewer')) |> 
+  #   mutate(value = str_sub(value, 2, -1))
+  # 
+  # ### Dataset link
+  # newlink = paste0("https://portal.edirepository.org/nis", linkend$value[1])
+  # 
+  # infile1 <- tempfile()
+  # download.file(newlink,infile1,method="curl")
+  # dt1 <- read_csv(infile1, show_col_types = FALSE)
   
-  ### Dataset link
-  newlink = paste0("https://portal.edirepository.org/nis", linkend$value[1])
-  
-  infile1 <- tempfile()
-  download.file(newlink,infile1,method="curl")
-  dt1 <- read_csv(infile1, show_col_types = FALSE)
+  revision = list_data_package_revisions(scope = 'knb-lter-ntl', identifier = getidentifier, filter = "newest")
+  packageid = paste0('knb-lter-ntl.',getidentifier,'.', revision)
+  res = read_data_entity_names(packageid)
+  raw = read_data_entity(packageId = packageid, entityId = res$entityId[1])
+  dt1 = read_csv(file = raw)
   
   ### Get title 
-  cat('## ',html_text2(html_elements(pg2, "li"))[27], '\n\n')
+  cat('## ',res$entityName, '\n\n')
   # Print URL
   cat('**EDI Archive + Metadata**: ',coreLink, '\n\n')
-  # Print .csv download
-   cat('**.csv download link**: ',newlink, '\n\n')
+  # # Print .csv download
+  # cat('**.csv download link**: ',coreLink, '\n\n')
   
   # variables in dataset
   varnames = names(dt1)
@@ -79,6 +87,11 @@ for (i in 2:nrow(links)) {
     
     cat('**Date Range**: ',as.character(firstdate), ' - ', as.character(enddate), '\n\n')
   }
+  
+  # Number of entries
+  cat('**No. of entries**: ',paste0(nrow(dt1), collapse=", "), '\n\n')
+  
+  
   if("sample_date" %in% varnames) {
     firstdate = min(dt1$sample_date, na.rm = T)
     enddate = max(dt1$sample_date, na.rm = T)
