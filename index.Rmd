@@ -49,18 +49,13 @@ for (i in 2:nrow(links)) {
   
   # Get dataset URL
   coreLink = links$value[i]
-  
-  pg2 <- read_html(coreLink)
-  linkend = as_tibble(html_attr(html_elements(pg2, "a"), "href")) %>%
-    filter(str_detect(value, '/dataviewer')) |> 
-    mutate(value = str_sub(value, 2, -1))
-  
-  ### Dataset link
-  newlink = paste0("https://portal.edirepository.org/nis", linkend$value[1])
-  
-  infile1 <- tempfile()
-  download.file(newlink,infile1,method="curl")
-  dt1 <- read_csv(infile1, show_col_types = FALSE)
+  getidentifier <- stringr::str_extract(coreLink, "(?<=identifier=)\\d+")
+   
+  revision = list_data_package_revisions(scope = 'knb-lter-ntl', identifier = getidentifier, filter = "newest")
+  packageid = paste0('knb-lter-ntl.',getidentifier,'.', revision)
+  res = read_data_entity_names(packageid)
+  raw = read_data_entity(packageId = packageid, entityId = res$entityId[1])
+  dt1 = read_csv(file = raw)
   
   # # Get metadatalink
   # meta = head(html_attr(html_nodes(pg2, "a")[[32]], "href"))
@@ -69,10 +64,8 @@ for (i in 2:nrow(links)) {
   # html_text2(html_elements(pg3, "li"))
 
   # Get package ID to get EML metadata
-  pckIDinx = which(startsWith(html_text2(html_nodes(pg2, "li")), 'knb'))[1]
-  pckID = strsplit(html_text2(html_nodes(pg2, "li"))[[pckIDinx]], split = ' ')[[1]][1]
-  
-  meta.xml = read_metadata(packageId = pckID)
+
+  meta.xml = read_metadata(packageId = packageid)
   eml_keywords <- xml_text(xml_find_all(meta.xml, './/keyword'))
   
   # Keep core areas 
@@ -83,8 +76,7 @@ for (i in 2:nrow(links)) {
                                                   'Disturbance', 'disturbance')]
   
   ### Get title 
-  # cat('## ',html_text2(html_elements(pg2, "li"))[27], '\n\n')
-  cat('## ', xml_text(xml_find_all(meta.xml, './/title'))[1], '\n\n')
+    cat('## ',res$entityName, '\n\n')
 
    # Print Keywords
   cat('**Core Areas**: ',paste(keepKeywords, collapse=", "), '\n\n')
@@ -94,8 +86,6 @@ for (i in 2:nrow(links)) {
   
   # Print URL
   cat('**EDI Archive + Metadata**: ',coreLink, '\n\n')
-  # Print .csv download
-  cat('**.csv download link**: ',newlink, '\n\n')
   
   # variables in dataset
   varnames = names(dt1)
@@ -114,6 +104,9 @@ for (i in 2:nrow(links)) {
     
     cat('**Date Range**: ',as.character(firstdate), ' - ', as.character(enddate), '\n\n')
   }
+  
+    # Number of entries
+  cat('**No. of entries**: ',paste0(nrow(dt1), collapse=", "), '\n\n')
   
   # cycle through lakes 
   if("lakeid" %in% varnames) {
